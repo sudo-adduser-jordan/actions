@@ -1,0 +1,39 @@
+name: Push to Remotes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "jordan"
+          git config --global user.email "sudo-adduser-jordan@gmail.com"
+
+      - name: Add GitHub remote
+        run: |
+          git remote add github https://github.com/{github-owner}/{github-repo}.git
+
+      - name: Add GitLab remote
+        run: |
+          git remote add gitlab https://gitlab.com/{gitlab-namespace}/{gitlab-repo}.git
+
+      - name: Add Codeberg remote
+        run: |
+          git remote add codeberg https://codeberg.org/{codeberg-namespace}/{codeberg-repo}.git
+
+      - name: Push to all remotes
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+          GITLAB_TOKEN: ${{ secrets.TOKEN_GITLAB }}
+          CODEBERG_TOKEN: ${{ secrets.TOKEN_CODEBERG }}
+        run: |
+          git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
+          git push https://$GITLAB_TOKEN@gitlab.com/${{ github.repository }}.git
+          git push https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
