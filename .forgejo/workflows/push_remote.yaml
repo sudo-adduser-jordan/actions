@@ -29,7 +29,7 @@ jobs:
           git remote add github https://github.com/${{ github.repository }}.git
 
           echo git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
-          git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
+          git push -u https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
 
       - name: Push to Codeberg
         env:
@@ -39,7 +39,7 @@ jobs:
           git remote add codeberg https://codeberg.org/${{ github.repository }}.git
 
           echo git push https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
-          git push https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
+          git push -u https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
    
       - name: Push to GitLab
         env:
