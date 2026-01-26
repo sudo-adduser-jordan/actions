@@ -6,8 +6,8 @@ jobs:
 
   test:
     runs-on: docker
-    # container:
-      # image: ghcr.io/catthehacker/ubuntu:act-22.04
+    container:
+      image: ghcr.io/catthehacker/ubuntu:act-22.04
     # options: -v /var/run/docker.sock:/var/run/docker.sock
     steps:
     - name: Checkout code
@@ -15,7 +15,14 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install TruffleHog
+      run: |
+        curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin
+
     - name: Secret Scanning
-      uses: https://github.com/trufflesecurity/trufflehog@main
-      with:
-        extra_args: --results=verified,unknown
+      run: trufflehog git file://. --results=verified,unknown
+    
+    # - name: Secret Scanning
+    #   uses: https://github.com/trufflesecurity/trufflehog@main
+    #   with:
+    #     extra_args: --results=verified,unknown
