@@ -27,11 +27,11 @@ jobs:
           tags: user/app:latest
 
 
-          - name: Docker Scout
-          id: docker-scout
-          uses: docker/scout-action@v1
-          with:
-            command: cves,recommendations,compare
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,compare
             to-latest: true
             ignore-base: true
             ignore-unchanged: true
