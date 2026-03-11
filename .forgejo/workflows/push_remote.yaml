@@ -18,38 +18,35 @@ jobs:
 
       - name: Configure Git
         run: |
-          echo git config --global user.name "jordan"
-          echo git config --global user.email "sudo-adduser-jordan@gmail.com"
-
           git config --global user.name "jordan"
           git config --global user.email "sudo-adduser-jordan@gmail.com"
+
+      # - name: Remove History
+      #   run: |
+      #     git checkout --orphan reset_branch
+      #     git add .
+      #     git commit -m "v0.0.1"
+      #     git branch -M main
+      #     # push 'main' because we renamed the orphan branch above
 
       - name: Push to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
         run: |
-          echo git remote add github https://github.com/${{ github.repository }}.git
           git remote add github https://github.com/${{ github.repository }}.git
-
-          echo git push -f https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
-          git push -f https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git
+          git push -f https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git main
 
       - name: Push to Codeberg
         env:
           CODEBERG_TOKEN: ${{ secrets.TOKEN_CODEBERG }}
         run: |
-          echo git remote add codeberg https://codeberg.org/${{ github.repository }}.git
           git remote add codeberg https://codeberg.org/${{ github.repository }}.git
-
-          echo git push -f https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
-          git push -f https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git
+          git push -f https://$CODEBERG_TOKEN@codeberg.org/${{ github.repository }}.git main
 
       - name: Push to GitLab
         env:
           GITLAB_TOKEN: ${{ secrets.TOKEN_GITLAB }}
         run: |
-          echo git remote add gitlab https://gitlab.com/${{ github.repository }}.git
           git remote add gitlab https://gitlab.com/${{ github.repository }}.git
-
-          echo git push -f https://server:$GITLAB_TOKEN@gitlab.com/${{ github.repository }}.git
-          git push -f https://server:$GITLAB_TOKEN@gitlab.com/${{ github.repository }}.git
+          git push -f https://server:$GITLAB_TOKEN@gitlab.com/${{ github.repository }}.git main
+          
